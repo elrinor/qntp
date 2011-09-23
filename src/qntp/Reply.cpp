@@ -35,7 +35,7 @@ namespace qntp {
   }
   
   LeapIndicator Reply::leapIndicator() const {
-    return d->packet.basic.flags.leapIndicator;
+    return static_cast<LeapIndicator>(d->packet.basic.flags.leapIndicator);
   }
 
   quint8 Reply::versionNumber() const {
@@ -43,7 +43,7 @@ namespace qntp {
   }
 
   Mode Reply::mode() const {
-    return d->packet.basic.flags.mode;
+    return static_cast<Mode>(d->packet.basic.flags.mode);
   }
 
   quint8 Reply::stratum() const {

@@ -29,14 +29,14 @@ namespace qntp {
    */
   struct PacketFlags {
     /** Mode. */
-    Mode mode: 3;
+    unsigned char mode: 3;
 
     /** Version number of the protocol (3 or 4). */
-    quint8 versionNumber: 3;
+    unsigned char versionNumber: 3;
 
     /** Warns of an impending leap second to be inserted/deleted in the last minute 
      * of the current day. */
-    LeapIndicator leapIndicator: 2;
+    unsigned char leapIndicator: 2;
   };
 
 #pragma pack(push, 1)

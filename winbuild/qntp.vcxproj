@@ -98,6 +98,7 @@ nmake $(Configuration)-clean</NMakeCleanCommandLine>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\qntp.pri" />
     <None Include="..\qntp.pro" />
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +114,6 @@ nmake $(Configuration)-clean</NMakeCleanCommandLine>
     <ClInclude Include="..\src\qntp\Timestamp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\qntp\src.cpp" />
     <ClCompile Include="..\src\qntp\Client.cpp" />
     <ClCompile Include="..\src\qntp\Reply.cpp" />
   </ItemGroup>

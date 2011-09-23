@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\qntp.pro" />
+    <None Include="..\qntp.pri" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\qntp\Timestamp.h">
@@ -56,9 +57,6 @@
     </ClCompile>
     <ClCompile Include="..\src\qntp\Reply.cpp">
       <Filter>src\qntp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\include\qntp\src.cpp">
-      <Filter>include\qntp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

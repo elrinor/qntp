@@ -3,15 +3,6 @@ TARGET   = qntp
 QT      -= gui
 QT      += network
 
-VERSION = 0.7.1
-
-win32 {
-  VERSION =
-  g++ {
-    TARGET = libqntp
-  }
-}
-
 MOC_DIR = temp/moc
 
 INCLUDEPATH += \
