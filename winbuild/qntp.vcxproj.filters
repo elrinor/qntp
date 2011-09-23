@@ -57,5 +57,8 @@
     <ClCompile Include="..\src\qntp\Reply.cpp">
       <Filter>src\qntp</Filter>
     </ClCompile>
+    <ClCompile Include="..\include\qntp\src.cpp">
+      <Filter>include\qntp</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
