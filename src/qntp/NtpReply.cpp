@@ -76,11 +76,11 @@ QDateTime NtpReply::destinationTime() const {
   return d->destinationTime;
 }
 
-uint NtpReply::roundTripDelay() const {
+qint64 NtpReply::roundTripDelay() const {
   return originTime().msecsTo(destinationTime()) - receiveTime().msecsTo(transmitTime());
 }
 
-uint NtpReply::localClockOffset() const {
+qint64 NtpReply::localClockOffset() const {
   return (originTime().msecsTo(receiveTime()) + destinationTime().msecsTo(transmitTime())) / 2;
 }
 

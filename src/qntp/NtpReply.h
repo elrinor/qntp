@@ -95,12 +95,12 @@ public:
   /**
    * @returns                        Round trip delay, in milliseconds.
    */
-  uint roundTripDelay() const;
+  qint64 roundTripDelay() const;
 
   /**
    * @returns                        Local clock offset, in milliseconds.
    */
-  uint localClockOffset() const;
+  qint64 localClockOffset() const;
 
 protected:
   friend class NtpClient; /* Calls protected constructor. */
