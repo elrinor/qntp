@@ -74,7 +74,7 @@ QDateTime NtpTimestamp::toDateTime(const NtpTimestamp &ntpTime) {
   quint32 fraction = qFromBigEndian(ntpTime.fraction);
 
   /* Convert NTP timestamp to number of milliseconds passed since Jan 1 1900. */ 
-  qint64 ntpMSecs = seconds * 1000 + fraction * 1000ll / 0x100000000ll;
+  qint64 ntpMSecs = seconds * 1000ll + fraction * 1000ll / 0x100000000ll;
 
   /* Construct Qt date time. */
   return QDateTime::fromMSecsSinceEpoch(ntpMSecs + detail::january_1_1900);
