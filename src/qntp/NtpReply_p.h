@@ -19,13 +19,13 @@
 
 #include "config.h"
 #include <QSharedData>
-#include "Packet.h"
+#include "NtpPacket.h"
 
 namespace qntp { namespace detail {
 
-  class ReplyPrivate: public QSharedData {
+  class NtpReplyPrivate: public QSharedData {
   public:
-    FullPacket packet;
+    NtpFullPacket packet;
     QDateTime destinationTime;
   };
 

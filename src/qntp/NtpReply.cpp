@@ -14,75 +14,75 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with QNtp. If not, see <http://www.gnu.org/licenses/>. */
-#include "Reply.h"
+#include "NtpReply.h"
 #include <cmath> /* For std::pow. */
-#include "Reply_p.h"
+#include "NtpReply_p.h"
 
 namespace qntp {
   
-  Reply::Reply(detail::ReplyPrivate *dd): d(dd) {
+  NtpReply::NtpReply(detail::NtpReplyPrivate *dd): d(dd) {
     Q_ASSERT(dd != NULL);
   }
 
-  Reply::Reply(const Reply &other): d(other.d) {}
+  NtpReply::NtpReply(const NtpReply &other): d(other.d) {}
 
-  Reply::~Reply() {}
+  NtpReply::~NtpReply() {}
 
-  Reply &Reply::operator=(const Reply &other) {
+  NtpReply &NtpReply::operator=(const NtpReply &other) {
     d = other.d;
 
     return *this;
   }
   
-  LeapIndicator Reply::leapIndicator() const {
-    return static_cast<LeapIndicator>(d->packet.basic.flags.leapIndicator);
+  NtpLeapIndicator NtpReply::leapIndicator() const {
+    return static_cast<NtpLeapIndicator>(d->packet.basic.flags.leapIndicator);
   }
 
-  quint8 Reply::versionNumber() const {
+  quint8 NtpReply::versionNumber() const {
     return d->packet.basic.flags.versionNumber;
   }
 
-  Mode Reply::mode() const {
-    return static_cast<Mode>(d->packet.basic.flags.mode);
+  NtpMode NtpReply::mode() const {
+    return static_cast<NtpMode>(d->packet.basic.flags.mode);
   }
 
-  quint8 Reply::stratum() const {
+  quint8 NtpReply::stratum() const {
     return d->packet.basic.stratum;
   }
 
-  qreal Reply::pollInterval() const {
+  qreal NtpReply::pollInterval() const {
     return std::pow(static_cast<qreal>(2), static_cast<qreal>(d->packet.basic.poll));
   }
 
-  qreal Reply::precision() const {
+  qreal NtpReply::precision() const {
     return std::pow(static_cast<qreal>(2), static_cast<qreal>(d->packet.basic.precision));
   }
 
-  QDateTime Reply::referenceTime() const {
-    return Timestamp::toDateTime(d->packet.basic.referenceTimestamp);
+  QDateTime NtpReply::referenceTime() const {
+    return NtpTimestamp::toDateTime(d->packet.basic.referenceTimestamp);
   }
 
-  QDateTime Reply::originTime() const {
-    return Timestamp::toDateTime(d->packet.basic.originateTimestamp);
+  QDateTime NtpReply::originTime() const {
+    return NtpTimestamp::toDateTime(d->packet.basic.originateTimestamp);
   }
 
-  QDateTime Reply::receiveTime() const {
-    return Timestamp::toDateTime(d->packet.basic.receiveTimestamp);
+  QDateTime NtpReply::receiveTime() const {
+    return NtpTimestamp::toDateTime(d->packet.basic.receiveTimestamp);
   }
 
-  QDateTime Reply::transmitTime() const {
-    return Timestamp::toDateTime(d->packet.basic.transmitTimestamp);
+  QDateTime NtpReply::transmitTime() const {
+    return NtpTimestamp::toDateTime(d->packet.basic.transmitTimestamp);
   }
 
-  QDateTime Reply::destinationTime() const {
+  QDateTime NtpReply::destinationTime() const {
     return d->destinationTime;
   }
 
-  uint Reply::roundTripDelay() const {
+  uint NtpReply::roundTripDelay() const {
     return originTime().msecsTo(destinationTime()) - receiveTime().msecsTo(transmitTime());
   }
 
-  uint Reply::localClockOffset() const {
+  uint NtpReply::localClockOffset() const {
     return (originTime().msecsTo(receiveTime()) + destinationTime().msecsTo(transmitTime())) / 2;
   }
 

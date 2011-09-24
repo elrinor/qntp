@@ -14,44 +14,44 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with QNtp. If not, see <http://www.gnu.org/licenses/>. */
-#include "Client.h"
+#include "NtpClient.h"
 #include <QUdpSocket>
 #include <QHostAddress>
-#include "Packet.h"
-#include "Reply.h"
-#include "Reply_p.h"
+#include "NtpPacket.h"
+#include "NtpReply.h"
+#include "NtpReply_p.h"
 
 namespace qntp {
 
-  Client::Client() {
+  NtpClient::NtpClient() {
     init(QHostAddress::Any, 0);
   }
 
-  Client::Client(const QHostAddress &bindAddress, quint16 bindPort) {
+  NtpClient::NtpClient(const QHostAddress &bindAddress, quint16 bindPort) {
     init(bindAddress, bindPort);
   }
 
-  void Client::init(const QHostAddress &bindAddress, quint16 bindPort) {
+  void NtpClient::init(const QHostAddress &bindAddress, quint16 bindPort) {
     mSocket = new QUdpSocket(this);
     mSocket->bind(bindAddress, bindPort);
 
     connect(mSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
   }
 
-  Client::~Client() {
+  NtpClient::~NtpClient() {
     return;
   }
 
-  bool Client::sendRequest(const QHostAddress &address, quint16 port) {
+  bool NtpClient::sendRequest(const QHostAddress &address, quint16 port) {
     if(mSocket->state() != QAbstractSocket::BoundState)
       return false;
 
     /* Initialize the NTP packet. */
-    Packet packet;
+    NtpPacket packet;
     qMemSet(&packet, 0, sizeof(packet));
     packet.flags.mode = ClientMode;
     packet.flags.versionNumber = 4;
-    packet.transmitTimestamp = Timestamp::fromDateTime(QDateTime::currentDateTimeUtc());
+    packet.transmitTimestamp = NtpTimestamp::fromDateTime(QDateTime::currentDateTimeUtc());
 
     /* Send it. */
     if(mSocket->writeDatagram(reinterpret_cast<const char *>(&packet), sizeof(packet), address, port) < 0)
@@ -60,24 +60,24 @@ namespace qntp {
     return true;
   }
 
-  void Client::readPendingDatagrams() {
+  void NtpClient::readPendingDatagrams() {
     while (mSocket->hasPendingDatagrams()) {
-      FullPacket packet;
+      NtpFullPacket packet;
       qMemSet(&packet, 0, sizeof(packet));
 
       QHostAddress address;
       quint16 port;
 
-      if(mSocket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(Packet))
+      if(mSocket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
         continue;
 
       QDateTime now = QDateTime::currentDateTime();
 
       /* Prepare reply. */
-      detail::ReplyPrivate *replyPrivate = new detail::ReplyPrivate();
+      detail::NtpReplyPrivate *replyPrivate = new detail::NtpReplyPrivate();
       replyPrivate->packet = packet;
       replyPrivate->destinationTime = now;
-      Reply reply(replyPrivate);
+      NtpReply reply(replyPrivate);
 
       /* Notify. */
       Q_EMIT replyReceived(address, port, reply);

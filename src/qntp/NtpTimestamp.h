@@ -14,8 +14,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with QNtp. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef QNTP_TIME_H
-#define QNTP_TIME_H
+#ifndef QNTP_NTP_TIMESTAMP_H
+#define QNTP_NTP_TIMESTAMP_H
 
 #include "config.h"
 #include <QtGlobal>
@@ -32,7 +32,7 @@ namespace qntp {
   /**
    * 64-bit NTP timestamp.
    */
-  struct Timestamp {
+  struct NtpTimestamp {
     /** Number of seconds passed since Jan 1 1900, in big-endian format. */
     quint32 seconds;
 
@@ -43,18 +43,18 @@ namespace qntp {
      * @param dateTime                 Qt date time.
      * @returns                        Ntp time for the given qt
      */
-    static inline Timestamp fromDateTime(const QDateTime &dateTime);
+    static inline NtpTimestamp fromDateTime(const QDateTime &dateTime);
 
     /**
      * @param ntpTime                  NTP timestamp.
      * @returns                        Qt date time for the given NTP timestamp.
      */
-    static inline QDateTime toDateTime(const Timestamp &ntpTime);
+    static inline QDateTime toDateTime(const NtpTimestamp &ntpTime);
   };
 #pragma pack(pop)
 
 
-  Timestamp Timestamp::fromDateTime(const QDateTime &dateTime) {
+  NtpTimestamp NtpTimestamp::fromDateTime(const QDateTime &dateTime) {
     /* Convert given time to number of milliseconds passed since Jan 1 1900. */
     qint64 ntpMSecs = dateTime.toMSecsSinceEpoch() - detail::january_1_1900;
 
@@ -63,13 +63,13 @@ namespace qntp {
     quint32 fraction = 0x100000000ll * (ntpMSecs % 1000) / 1000;
 
     /* Convert to big-endian. */
-    Timestamp result;
+    NtpTimestamp result;
     result.seconds = qToBigEndian(seconds);
     result.fraction = qToBigEndian(fraction);
     return result;
   }
 
-  QDateTime Timestamp::toDateTime(const Timestamp &ntpTime) {
+  QDateTime NtpTimestamp::toDateTime(const NtpTimestamp &ntpTime) {
     /* Convert to local-endian. */
     quint32 seconds = qFromBigEndian(ntpTime.seconds);
     quint32 fraction = qFromBigEndian(ntpTime.fraction);
@@ -83,4 +83,4 @@ namespace qntp {
 
 } // namespace qntp
 
-#endif // QNTP_TIME_H
+#endif // QNTP_NTP_TIMESTAMP_H

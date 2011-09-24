@@ -14,8 +14,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with QNtp. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef QNTP_CLIENT_H
-#define QNTP_CLIENT_H
+#ifndef QNTP_NTP_CLIENT_H
+#define QNTP_NTP_CLIENT_H
 
 #include "config.h"
 #include <QObject>
@@ -25,18 +25,18 @@ class QUdpSocket;
 class QHostAddress;
 
 namespace qntp {
-  class Reply;
+  class NtpReply;
 
   /**
    * NTP client.
    */
-  class QNTP_EXPORT Client: public QObject {
+  class QNTP_EXPORT NtpClient: public QObject {
     Q_OBJECT;
   public:
     /**
      * Default constructor.
      */
-    Client();
+    NtpClient();
 
     /**
      * Constructor.
@@ -44,12 +44,12 @@ namespace qntp {
      * @param bindAddress              Address to bind udp socket to.
      * @param bindPort                 Port to bind udp socket to.
      */
-    Client(const QHostAddress &bindAddress, quint16 bindPort);
+    NtpClient(const QHostAddress &bindAddress, quint16 bindPort);
 
     /**
      * Virtual destructor.
      */
-    virtual ~Client();
+    virtual ~NtpClient();
 
     /**
      * Sends NTP request.
@@ -68,7 +68,7 @@ namespace qntp {
      * @param port                     Port of the server that sent this reply.
      * @param reply                    NTP reply.
      */
-    void replyReceived(const QHostAddress &address, quint16 port, const Reply &reply);
+    void replyReceived(const QHostAddress &address, quint16 port, const NtpReply &reply);
 
   private Q_SLOTS:
     void readPendingDatagrams();
@@ -81,4 +81,4 @@ namespace qntp {
 
 } // namespace qntp
 
-#endif // QNTP_CLIENT_H
+#endif // QNTP_NTP_CLIENT_H

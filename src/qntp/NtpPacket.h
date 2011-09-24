@@ -20,14 +20,14 @@
 #include "config.h"
 #include <QtGlobal>
 #include "QNtp.h"
-#include "Timestamp.h"
+#include "NtpTimestamp.h"
 
 namespace qntp {
 
   /**
-   * Packet flags (first byte of the packet).
+   * NtpPacket flags (first byte of the packet).
    */
-  struct PacketFlags {
+  struct NtpPacketFlags {
     /** Mode. */
     unsigned char mode: 3;
 
@@ -43,9 +43,9 @@ namespace qntp {
   /**
    * Mandatory part of an NTP packet
    */
-  struct Packet {
+  struct NtpPacket {
     /** Flags. */
-    PacketFlags flags;
+    NtpPacketFlags flags;
 
     /** Stratum of the clock. */
     quint8 stratum;
@@ -66,22 +66,22 @@ namespace qntp {
     qint8 referenceID[4];
 
     /** The time at which the clock was last set or corrected. */
-    Timestamp referenceTimestamp;
+    NtpTimestamp referenceTimestamp;
 
     /** The time at which the request departed the client for the server. */
-    Timestamp originateTimestamp;
+    NtpTimestamp originateTimestamp;
 
     /** The time at which the request arrived at the server. */
-    Timestamp receiveTimestamp;
+    NtpTimestamp receiveTimestamp;
 
     /** The time at which the reply departed the server for client. */
-    Timestamp transmitTimestamp;
+    NtpTimestamp transmitTimestamp;
   };
 
   /**
    * Optional part of an NTP packet.
    */
-  struct AuthenticationInfo {
+  struct NtpAuthenticationInfo {
     /** Key identifier. */
     quint32 keyId;
 
@@ -92,9 +92,9 @@ namespace qntp {
   /**
    * Full NTP packet.
    */
-  struct FullPacket {
-    Packet basic;
-    AuthenticationInfo auth;
+  struct NtpFullPacket {
+    NtpPacket basic;
+    NtpAuthenticationInfo auth;
   };
 #pragma pack(pop)
 

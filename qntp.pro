@@ -21,14 +21,14 @@ CONFIG(release, debug|release) {
 DEFINES += QNTP_BUILDING
 
 HEADERS += \
-  src/qntp/Client.h \
+  src/qntp/NtpClient.h \
   src/qntp/config.h \
-  src/qntp/Packet.h \
+  src/qntp/NtpPacket.h \
   src/qntp/QNtp.h \
-  src/qntp/Reply.h \
-  src/qntp/Reply_p.h \
-  src/qntp/Timestamp.h \
+  src/qntp/NtpReply.h \
+  src/qntp/NtpReply_p.h \
+  src/qntp/NtpTimestamp.h \
 
 SOURCES += \
-  src/qntp/Client.cpp \
-  src/qntp/Reply.cpp \
+  src/qntp/NtpClient.cpp \
+  src/qntp/NtpReply.cpp \

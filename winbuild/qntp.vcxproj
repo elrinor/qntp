@@ -102,20 +102,20 @@ nmake $(Configuration)-clean</NMakeCleanCommandLine>
     <None Include="..\qntp.pro" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\qntp\Client.h" />
+    <ClInclude Include="..\include\qntp\NtpClient.h" />
+    <ClInclude Include="..\include\qntp\NtpReply.h" />
     <ClInclude Include="..\include\qntp\QNtp.h" />
-    <ClInclude Include="..\include\qntp\Reply.h" />
-    <ClInclude Include="..\src\qntp\Client.h" />
     <ClInclude Include="..\src\qntp\config.h" />
-    <ClInclude Include="..\src\qntp\Packet.h" />
+    <ClInclude Include="..\src\qntp\NtpClient.h" />
+    <ClInclude Include="..\src\qntp\NtpPacket.h" />
+    <ClInclude Include="..\src\qntp\NtpReply.h" />
+    <ClInclude Include="..\src\qntp\NtpReply_p.h" />
+    <ClInclude Include="..\src\qntp\NtpTimestamp.h" />
     <ClInclude Include="..\src\qntp\QNtp.h" />
-    <ClInclude Include="..\src\qntp\Reply.h" />
-    <ClInclude Include="..\src\qntp\Reply_p.h" />
-    <ClInclude Include="..\src\qntp\Timestamp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\qntp\Client.cpp" />
-    <ClCompile Include="..\src\qntp\Reply.cpp" />
+    <ClCompile Include="..\src\qntp\NtpClient.cpp" />
+    <ClCompile Include="..\src\qntp\NtpReply.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -14,8 +14,8 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with QNtp. If not, see <http://www.gnu.org/licenses/>. */
-#ifndef QNTP_REPLY_H
-#define QNTP_REPLY_H
+#ifndef QNTP_NTP_REPLY_H
+#define QNTP_NTP_REPLY_H
 
 #include "config.h"
 #include <QSharedDataPointer>
@@ -25,24 +25,24 @@
 namespace qntp {
 
   namespace detail {
-    class ReplyPrivate;
+    class NtpReplyPrivate;
   }
 
   /**
    * NTP reply.
    */
-  class QNTP_EXPORT Reply {
+  class QNTP_EXPORT NtpReply {
   public:
-    Reply(const Reply &other);
+    NtpReply(const NtpReply &other);
 
-    ~Reply();
+    ~NtpReply();
 
-    Reply &operator=(const Reply &other);
+    NtpReply &operator=(const NtpReply &other);
 
     /**
      * @returns                        Leap indicator.
      */
-    LeapIndicator leapIndicator() const;
+    NtpLeapIndicator leapIndicator() const;
 
     /**
      * @returns                        NTP version number.
@@ -50,9 +50,9 @@ namespace qntp {
     quint8 versionNumber() const;
 
     /**
-     * @returns                        Mode.
+     * @returns                        NtpMode.
      */
-    Mode mode() const;
+    NtpMode mode() const;
 
     /**
      * @returns                        Stratum.
@@ -105,14 +105,14 @@ namespace qntp {
     uint localClockOffset() const;
 
   protected:
-    friend class Client; /* Calls protected constructor. */
+    friend class NtpClient; /* Calls protected constructor. */
 
-    Reply(detail::ReplyPrivate *dd);
+    NtpReply(detail::NtpReplyPrivate *dd);
 
   private:
-    QSharedDataPointer<detail::ReplyPrivate> d;
+    QSharedDataPointer<detail::NtpReplyPrivate> d;
   };
 
 } // namespace qntp
 
-#endif // QNTP_REPLY_H
+#endif // QNTP_NTP_REPLY_H

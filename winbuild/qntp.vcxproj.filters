@@ -20,42 +20,42 @@
     <None Include="..\qntp.pri" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\qntp\Timestamp.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\qntp\Packet.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\qntp\Client.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\qntp\config.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\qntp\QNtp.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\qntp\Reply.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\qntp\Reply_p.h">
-      <Filter>src\qntp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\qntp\Client.h">
+    <ClInclude Include="..\include\qntp\NtpClient.h">
       <Filter>include\qntp</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\qntp\Reply.h">
+    <ClInclude Include="..\include\qntp\NtpReply.h">
       <Filter>include\qntp</Filter>
     </ClInclude>
     <ClInclude Include="..\include\qntp\QNtp.h">
       <Filter>include\qntp</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\qntp\config.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpClient.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpPacket.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpReply.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpReply_p.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpTimestamp.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\QNtp.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\qntp\Client.cpp">
+    <ClCompile Include="..\src\qntp\NtpClient.cpp">
       <Filter>src\qntp</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\qntp\Reply.cpp">
+    <ClCompile Include="..\src\qntp\NtpReply.cpp">
       <Filter>src\qntp</Filter>
     </ClCompile>
   </ItemGroup>
