@@ -35,16 +35,19 @@ namespace qntp {
   public:
     /**
      * Default constructor.
+     * 
+     * @param parent                   Parent of this object.
      */
-    NtpClient();
+    NtpClient(QObject *parent = NULL);
 
     /**
      * Constructor.
      * 
      * @param bindAddress              Address to bind udp socket to.
      * @param bindPort                 Port to bind udp socket to.
+     * @param parent                   Parent of this object.
      */
-    NtpClient(const QHostAddress &bindAddress, quint16 bindPort);
+    NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent = NULL);
 
     /**
      * Virtual destructor.

@@ -23,11 +23,11 @@
 
 namespace qntp {
 
-  NtpClient::NtpClient() {
+  NtpClient::NtpClient(QObject *parent): QObject(parent) {
     init(QHostAddress::Any, 0);
   }
 
-  NtpClient::NtpClient(const QHostAddress &bindAddress, quint16 bindPort) {
+  NtpClient::NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent): QObject(parent) {
     init(bindAddress, bindPort);
   }
 
