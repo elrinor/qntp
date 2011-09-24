@@ -18,72 +18,69 @@
 #include <cmath> /* For std::pow. */
 #include "NtpReply_p.h"
 
-namespace qntp {
+NtpReply::NtpReply(detail::NtpReplyPrivate *dd): d(dd) {
+  Q_ASSERT(dd != NULL);
+}
+
+NtpReply::NtpReply(const NtpReply &other): d(other.d) {}
+
+NtpReply::~NtpReply() {}
+
+NtpReply &NtpReply::operator=(const NtpReply &other) {
+  d = other.d;
+
+  return *this;
+}
   
-  NtpReply::NtpReply(detail::NtpReplyPrivate *dd): d(dd) {
-    Q_ASSERT(dd != NULL);
-  }
+NtpLeapIndicator NtpReply::leapIndicator() const {
+  return static_cast<NtpLeapIndicator>(d->packet.basic.flags.leapIndicator);
+}
 
-  NtpReply::NtpReply(const NtpReply &other): d(other.d) {}
+quint8 NtpReply::versionNumber() const {
+  return d->packet.basic.flags.versionNumber;
+}
 
-  NtpReply::~NtpReply() {}
+NtpMode NtpReply::mode() const {
+  return static_cast<NtpMode>(d->packet.basic.flags.mode);
+}
 
-  NtpReply &NtpReply::operator=(const NtpReply &other) {
-    d = other.d;
+quint8 NtpReply::stratum() const {
+  return d->packet.basic.stratum;
+}
 
-    return *this;
-  }
-  
-  NtpLeapIndicator NtpReply::leapIndicator() const {
-    return static_cast<NtpLeapIndicator>(d->packet.basic.flags.leapIndicator);
-  }
+qreal NtpReply::pollInterval() const {
+  return std::pow(static_cast<qreal>(2), static_cast<qreal>(d->packet.basic.poll));
+}
 
-  quint8 NtpReply::versionNumber() const {
-    return d->packet.basic.flags.versionNumber;
-  }
+qreal NtpReply::precision() const {
+  return std::pow(static_cast<qreal>(2), static_cast<qreal>(d->packet.basic.precision));
+}
 
-  NtpMode NtpReply::mode() const {
-    return static_cast<NtpMode>(d->packet.basic.flags.mode);
-  }
+QDateTime NtpReply::referenceTime() const {
+  return NtpTimestamp::toDateTime(d->packet.basic.referenceTimestamp);
+}
 
-  quint8 NtpReply::stratum() const {
-    return d->packet.basic.stratum;
-  }
+QDateTime NtpReply::originTime() const {
+  return NtpTimestamp::toDateTime(d->packet.basic.originateTimestamp);
+}
 
-  qreal NtpReply::pollInterval() const {
-    return std::pow(static_cast<qreal>(2), static_cast<qreal>(d->packet.basic.poll));
-  }
+QDateTime NtpReply::receiveTime() const {
+  return NtpTimestamp::toDateTime(d->packet.basic.receiveTimestamp);
+}
 
-  qreal NtpReply::precision() const {
-    return std::pow(static_cast<qreal>(2), static_cast<qreal>(d->packet.basic.precision));
-  }
+QDateTime NtpReply::transmitTime() const {
+  return NtpTimestamp::toDateTime(d->packet.basic.transmitTimestamp);
+}
 
-  QDateTime NtpReply::referenceTime() const {
-    return NtpTimestamp::toDateTime(d->packet.basic.referenceTimestamp);
-  }
+QDateTime NtpReply::destinationTime() const {
+  return d->destinationTime;
+}
 
-  QDateTime NtpReply::originTime() const {
-    return NtpTimestamp::toDateTime(d->packet.basic.originateTimestamp);
-  }
+uint NtpReply::roundTripDelay() const {
+  return originTime().msecsTo(destinationTime()) - receiveTime().msecsTo(transmitTime());
+}
 
-  QDateTime NtpReply::receiveTime() const {
-    return NtpTimestamp::toDateTime(d->packet.basic.receiveTimestamp);
-  }
+uint NtpReply::localClockOffset() const {
+  return (originTime().msecsTo(receiveTime()) + destinationTime().msecsTo(transmitTime())) / 2;
+}
 
-  QDateTime NtpReply::transmitTime() const {
-    return NtpTimestamp::toDateTime(d->packet.basic.transmitTimestamp);
-  }
-
-  QDateTime NtpReply::destinationTime() const {
-    return d->destinationTime;
-  }
-
-  uint NtpReply::roundTripDelay() const {
-    return originTime().msecsTo(destinationTime()) - receiveTime().msecsTo(transmitTime());
-  }
-
-  uint NtpReply::localClockOffset() const {
-    return (originTime().msecsTo(receiveTime()) + destinationTime().msecsTo(transmitTime())) / 2;
-  }
-
-} // namespace qntp

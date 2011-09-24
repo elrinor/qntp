@@ -21,67 +21,64 @@
 #include "NtpReply.h"
 #include "NtpReply_p.h"
 
-namespace qntp {
+NtpClient::NtpClient(QObject *parent): QObject(parent) {
+  init(QHostAddress::Any, 0);
+}
 
-  NtpClient::NtpClient(QObject *parent): QObject(parent) {
-    init(QHostAddress::Any, 0);
-  }
+NtpClient::NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent): QObject(parent) {
+  init(bindAddress, bindPort);
+}
 
-  NtpClient::NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent): QObject(parent) {
-    init(bindAddress, bindPort);
-  }
+void NtpClient::init(const QHostAddress &bindAddress, quint16 bindPort) {
+  mSocket = new QUdpSocket(this);
+  mSocket->bind(bindAddress, bindPort);
 
-  void NtpClient::init(const QHostAddress &bindAddress, quint16 bindPort) {
-    mSocket = new QUdpSocket(this);
-    mSocket->bind(bindAddress, bindPort);
+  connect(mSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
+}
 
-    connect(mSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
-  }
+NtpClient::~NtpClient() {
+  return;
+}
 
-  NtpClient::~NtpClient() {
-    return;
-  }
+bool NtpClient::sendRequest(const QHostAddress &address, quint16 port) {
+  if(mSocket->state() != QAbstractSocket::BoundState)
+    return false;
 
-  bool NtpClient::sendRequest(const QHostAddress &address, quint16 port) {
-    if(mSocket->state() != QAbstractSocket::BoundState)
-      return false;
+  /* Initialize the NTP packet. */
+  NtpPacket packet;
+  qMemSet(&packet, 0, sizeof(packet));
+  packet.flags.mode = ClientMode;
+  packet.flags.versionNumber = 4;
+  packet.transmitTimestamp = NtpTimestamp::fromDateTime(QDateTime::currentDateTimeUtc());
 
-    /* Initialize the NTP packet. */
-    NtpPacket packet;
+  /* Send it. */
+  if(mSocket->writeDatagram(reinterpret_cast<const char *>(&packet), sizeof(packet), address, port) < 0)
+    return false;
+
+  return true;
+}
+
+void NtpClient::readPendingDatagrams() {
+  while (mSocket->hasPendingDatagrams()) {
+    NtpFullPacket packet;
     qMemSet(&packet, 0, sizeof(packet));
-    packet.flags.mode = ClientMode;
-    packet.flags.versionNumber = 4;
-    packet.transmitTimestamp = NtpTimestamp::fromDateTime(QDateTime::currentDateTimeUtc());
 
-    /* Send it. */
-    if(mSocket->writeDatagram(reinterpret_cast<const char *>(&packet), sizeof(packet), address, port) < 0)
-      return false;
+    QHostAddress address;
+    quint16 port;
 
-    return true;
-  }
+    if(mSocket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
+      continue;
 
-  void NtpClient::readPendingDatagrams() {
-    while (mSocket->hasPendingDatagrams()) {
-      NtpFullPacket packet;
-      qMemSet(&packet, 0, sizeof(packet));
+    QDateTime now = QDateTime::currentDateTime();
 
-      QHostAddress address;
-      quint16 port;
+    /* Prepare reply. */
+    detail::NtpReplyPrivate *replyPrivate = new detail::NtpReplyPrivate();
+    replyPrivate->packet = packet;
+    replyPrivate->destinationTime = now;
+    NtpReply reply(replyPrivate);
 
-      if(mSocket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
-        continue;
+    /* Notify. */
+    Q_EMIT replyReceived(address, port, reply);
+  }  
+}
 
-      QDateTime now = QDateTime::currentDateTime();
-
-      /* Prepare reply. */
-      detail::NtpReplyPrivate *replyPrivate = new detail::NtpReplyPrivate();
-      replyPrivate->packet = packet;
-      replyPrivate->destinationTime = now;
-      NtpReply reply(replyPrivate);
-
-      /* Notify. */
-      Q_EMIT replyReceived(address, port, reply);
-    }  
-  }
-
-} // namespace qntp

@@ -24,64 +24,62 @@
 class QUdpSocket;
 class QHostAddress;
 
-namespace qntp {
-  class NtpReply;
+class NtpReply;
+
+/**
+ * NTP client.
+ */
+class QNTP_EXPORT NtpClient: public QObject {
+  Q_OBJECT;
+public:
+  /**
+   * Default constructor.
+   * 
+   * @param parent                   Parent of this object.
+   */
+  NtpClient(QObject *parent = NULL);
 
   /**
-   * NTP client.
+   * Constructor.
+   * 
+   * @param bindAddress              Address to bind udp socket to.
+   * @param bindPort                 Port to bind udp socket to.
+   * @param parent                   Parent of this object.
    */
-  class QNTP_EXPORT NtpClient: public QObject {
-    Q_OBJECT;
-  public:
-    /**
-     * Default constructor.
-     * 
-     * @param parent                   Parent of this object.
-     */
-    NtpClient(QObject *parent = NULL);
+  NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent = NULL);
 
-    /**
-     * Constructor.
-     * 
-     * @param bindAddress              Address to bind udp socket to.
-     * @param bindPort                 Port to bind udp socket to.
-     * @param parent                   Parent of this object.
-     */
-    NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent = NULL);
+  /**
+   * Virtual destructor.
+   */
+  virtual ~NtpClient();
 
-    /**
-     * Virtual destructor.
-     */
-    virtual ~NtpClient();
+  /**
+   * Sends NTP request.
+   * 
+   * @param address                  NTP server address.
+   * @param port                     NTP server port.
+   * @returns                        Whether the NTP request was successfully sent.
+   */
+  bool sendRequest(const QHostAddress &address, quint16 port);
 
-    /**
-     * Sends NTP request.
-     * 
-     * @param address                  NTP server address.
-     * @param port                     NTP server port.
-     * @returns                        Whether the NTP request was successfully sent.
-     */
-    bool sendRequest(const QHostAddress &address, quint16 port);
+Q_SIGNALS:
+  /**
+   * This signal is emitted whenever NTP reply is received.
+   * 
+   * @param address                  Address of the server that sent this reply.
+   * @param port                     Port of the server that sent this reply.
+   * @param reply                    NTP reply.
+   */
+  void replyReceived(const QHostAddress &address, quint16 port, const NtpReply &reply);
 
-  Q_SIGNALS:
-    /**
-     * This signal is emitted whenever NTP reply is received.
-     * 
-     * @param address                  Address of the server that sent this reply.
-     * @param port                     Port of the server that sent this reply.
-     * @param reply                    NTP reply.
-     */
-    void replyReceived(const QHostAddress &address, quint16 port, const NtpReply &reply);
+private Q_SLOTS:
+  void readPendingDatagrams();
 
-  private Q_SLOTS:
-    void readPendingDatagrams();
+private:
+  void init(const QHostAddress &bindAddress, quint16 bindPort);
 
-  private:
-    void init(const QHostAddress &bindAddress, quint16 bindPort);
+  QUdpSocket *mSocket;
+};
 
-    QUdpSocket *mSocket;
-  };
-
-} // namespace qntp
 
 #endif // QNTP_NTP_CLIENT_H

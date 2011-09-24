@@ -21,14 +21,14 @@
 #include <QSharedData>
 #include "NtpPacket.h"
 
-namespace qntp { namespace detail {
+namespace detail {
 
-  class NtpReplyPrivate: public QSharedData {
-  public:
-    NtpFullPacket packet;
-    QDateTime destinationTime;
-  };
+class NtpReplyPrivate: public QSharedData {
+public:
+  NtpFullPacket packet;
+  QDateTime destinationTime;
+};
 
-}} // namespace qntp::detail
+} // namespace detail
 
 #endif // QNTP_REPLY_P_H

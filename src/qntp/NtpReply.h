@@ -22,97 +22,94 @@
 #include <QDateTime>
 #include "QNtp.h"
 
-namespace qntp {
+namespace detail {
+  class NtpReplyPrivate;
+}
 
-  namespace detail {
-    class NtpReplyPrivate;
-  }
+/**
+ * NTP reply.
+ */
+class QNTP_EXPORT NtpReply {
+public:
+  NtpReply(const NtpReply &other);
+
+  ~NtpReply();
+
+  NtpReply &operator=(const NtpReply &other);
 
   /**
-   * NTP reply.
+   * @returns                        Leap indicator.
    */
-  class QNTP_EXPORT NtpReply {
-  public:
-    NtpReply(const NtpReply &other);
+  NtpLeapIndicator leapIndicator() const;
 
-    ~NtpReply();
+  /**
+   * @returns                        NTP version number.
+   */
+  quint8 versionNumber() const;
 
-    NtpReply &operator=(const NtpReply &other);
+  /**
+   * @returns                        NtpMode.
+   */
+  NtpMode mode() const;
 
-    /**
-     * @returns                        Leap indicator.
-     */
-    NtpLeapIndicator leapIndicator() const;
+  /**
+   * @returns                        Stratum.
+   */
+  quint8 stratum() const;
 
-    /**
-     * @returns                        NTP version number.
-     */
-    quint8 versionNumber() const;
+  /**
+   * @returns                        Maximum interval between successive messages, in seconds.
+   */
+  qreal pollInterval() const;
 
-    /**
-     * @returns                        NtpMode.
-     */
-    NtpMode mode() const;
+  /**
+   * @returns                        Clock precision, in seconds.
+   */
+  qreal precision() const;
 
-    /**
-     * @returns                        Stratum.
-     */
-    quint8 stratum() const;
+  /**
+   * @returns                        Time when the system clock was last set or corrected.
+   */
+  QDateTime referenceTime() const;
 
-    /**
-     * @returns                        Maximum interval between successive messages, in seconds.
-     */
-    qreal pollInterval() const;
+  /**
+   * @returns                        Time at the client when the request departed for the server.
+   */
+  QDateTime originTime() const;
 
-    /**
-     * @returns                        Clock precision, in seconds.
-     */
-    qreal precision() const;
+  /**
+   * @returns                        Time at the server when the request arrived from the client.
+   */
+  QDateTime receiveTime() const;
 
-    /**
-     * @returns                        Time when the system clock was last set or corrected.
-     */
-    QDateTime referenceTime() const;
+  /**
+   * @returns                        Time at the server when the response left for the client.
+   */
+  QDateTime transmitTime() const;
 
-    /**
-     * @returns                        Time at the client when the request departed for the server.
-     */
-    QDateTime originTime() const;
+  /**
+   * @returns                        Time at the client when the reply arrived from the server.
+   */
+  QDateTime destinationTime() const;
 
-    /**
-     * @returns                        Time at the server when the request arrived from the client.
-     */
-    QDateTime receiveTime() const;
+  /**
+   * @returns                        Round trip delay, in milliseconds.
+   */
+  uint roundTripDelay() const;
 
-    /**
-     * @returns                        Time at the server when the response left for the client.
-     */
-    QDateTime transmitTime() const;
+  /**
+   * @returns                        Local clock offset, in milliseconds.
+   */
+  uint localClockOffset() const;
 
-    /**
-     * @returns                        Time at the client when the reply arrived from the server.
-     */
-    QDateTime destinationTime() const;
+protected:
+  friend class NtpClient; /* Calls protected constructor. */
 
-    /**
-     * @returns                        Round trip delay, in milliseconds.
-     */
-    uint roundTripDelay() const;
+  NtpReply(detail::NtpReplyPrivate *dd);
 
-    /**
-     * @returns                        Local clock offset, in milliseconds.
-     */
-    uint localClockOffset() const;
+private:
+  QSharedDataPointer<detail::NtpReplyPrivate> d;
+};
 
-  protected:
-    friend class NtpClient; /* Calls protected constructor. */
-
-    NtpReply(detail::NtpReplyPrivate *dd);
-
-  private:
-    QSharedDataPointer<detail::NtpReplyPrivate> d;
-  };
-
-} // namespace qntp
 
 #endif // QNTP_NTP_REPLY_H
