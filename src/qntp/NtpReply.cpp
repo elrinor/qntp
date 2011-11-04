@@ -18,6 +18,12 @@
 #include <cmath> /* For std::pow. */
 #include "NtpReply_p.h"
 
+NtpReply::NtpReply(): d(new detail::NtpReplyPrivate()) {
+  /* We don't use shared null because NtpReplyPrivate isn't a POD type and
+   * allocation overhead is negligible here. */
+  qMemSet(&d->packet, 0, sizeof(d->packet));
+}
+
 NtpReply::NtpReply(detail::NtpReplyPrivate *dd): d(dd) {
   Q_ASSERT(dd != NULL);
 }
@@ -84,3 +90,6 @@ qint64 NtpReply::localClockOffset() const {
   return (originTime().msecsTo(receiveTime()) + destinationTime().msecsTo(transmitTime())) / 2;
 }
 
+bool NtpReply::isNull() const {
+  return d->destinationTime.isNull();
+}
