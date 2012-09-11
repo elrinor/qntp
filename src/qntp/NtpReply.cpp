@@ -18,7 +18,7 @@
 #include <cmath> /* For std::pow. */
 #include "NtpReply_p.h"
 
-NtpReply::NtpReply(detail::NtpReplyPrivate *dd): d(dd) {
+NtpReply::NtpReply(NtpReplyPrivate *dd): d(dd) {
   Q_ASSERT(dd != NULL);
 }
 

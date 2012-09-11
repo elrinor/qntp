@@ -72,7 +72,7 @@ void NtpClient::readPendingDatagrams() {
     QDateTime now = QDateTime::currentDateTime();
 
     /* Prepare reply. */
-    detail::NtpReplyPrivate *replyPrivate = new detail::NtpReplyPrivate();
+    NtpReplyPrivate *replyPrivate = new NtpReplyPrivate();
     replyPrivate->packet = packet;
     replyPrivate->destinationTime = now;
     NtpReply reply(replyPrivate);

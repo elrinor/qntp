@@ -22,9 +22,7 @@
 #include <QDateTime>
 #include "QNtp.h"
 
-namespace detail {
-  class NtpReplyPrivate;
-}
+class NtpReplyPrivate;
 
 /**
  * NTP reply.
@@ -48,7 +46,7 @@ public:
   quint8 versionNumber() const;
 
   /**
-   * @returns                        NtpMode.
+   * @returns                        Ntp mode.
    */
   NtpMode mode() const;
 
@@ -105,10 +103,10 @@ public:
 protected:
   friend class NtpClient; /* Calls protected constructor. */
 
-  NtpReply(detail::NtpReplyPrivate *dd);
+  NtpReply(NtpReplyPrivate *dd);
 
 private:
-  QSharedDataPointer<detail::NtpReplyPrivate> d;
+  QSharedDataPointer<NtpReplyPrivate> d;
 };
 
 

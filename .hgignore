@@ -6,7 +6,9 @@ winbuild/qntp.suo
 winbuild/vc100.pdb
 winbuild/temp
 winbuild/release
+winbuild/Release
 winbuild/debug
+winbuild/Debug
 winbuild/Makefile.Debug
 winbuild/Makefile.Release
 winbuild/Makefile
