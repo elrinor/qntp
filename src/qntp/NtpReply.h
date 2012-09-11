@@ -29,6 +29,11 @@ class NtpReplyPrivate;
  */
 class QNTP_EXPORT NtpReply {
 public:
+  /**
+   * Default constructor. Constructs a null ntp reply.
+   */
+  NtpReply();
+
   NtpReply(const NtpReply &other);
 
   ~NtpReply();
@@ -99,6 +104,11 @@ public:
    * @returns                        Local clock offset, in milliseconds.
    */
   qint64 localClockOffset() const;
+
+  /**
+   * @returns                        Whether this ntp reply is null.
+   */
+  bool isNull() const;
 
 protected:
   friend class NtpClient; /* Calls protected constructor. */
