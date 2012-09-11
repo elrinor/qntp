@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\qntp">
+      <UniqueIdentifier>{64e0d0ce-8c59-4606-bc1b-21444bd68a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{8f907546-3e66-4c1d-b0d0-f602ef981bb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\qntp">
+      <UniqueIdentifier>{af2d52a6-5aa1-4281-854b-3e8bfde3bc1e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\qntp.pro" />
+    <None Include="..\qntp.pri" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\qntp\NtpClient.h">
+      <Filter>include\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\qntp\NtpReply.h">
+      <Filter>include\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\qntp\QNtp.h">
+      <Filter>include\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\config.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpClient.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpPacket.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpReply.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpReply_p.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\NtpTimestamp.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\qntp\QNtp.h">
+      <Filter>src\qntp</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\qntp\NtpClient.cpp">
+      <Filter>src\qntp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\qntp\NtpReply.cpp">
+      <Filter>src\qntp</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
