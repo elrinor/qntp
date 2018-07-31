@@ -9,17 +9,17 @@
  *
  * QNtp is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License 
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with QNtp. If not, see <http://www.gnu.org/licenses/>. */
 #include "NtpClient.h"
-#include <QUdpSocket>
-#include <QHostAddress>
 #include "NtpPacket.h"
 #include "NtpReply.h"
 #include "NtpReply_p.h"
+#include <QUdpSocket>
+#include <QHostAddress>
 
 NtpClient::NtpClient(QObject *parent): QObject(parent) {
   init(QHostAddress::Any, 0);
@@ -37,7 +37,6 @@ void NtpClient::init(const QHostAddress &bindAddress, quint16 bindPort) {
 }
 
 NtpClient::~NtpClient() {
-  return;
 }
 
 bool NtpClient::sendRequest(const QHostAddress &address, quint16 port) {
@@ -69,16 +68,14 @@ void NtpClient::readPendingDatagrams() {
     if(mSocket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
       continue;
 
-    QDateTime now = QDateTime::currentDateTime();
-
     /* Prepare reply. */
     NtpReplyPrivate *replyPrivate = new NtpReplyPrivate();
     replyPrivate->packet = packet;
-    replyPrivate->destinationTime = now;
+	replyPrivate->destinationTime = QDateTime::currentDateTime();
     NtpReply reply(replyPrivate);
 
     /* Notify. */
     Q_EMIT replyReceived(address, port, reply);
-  }  
+  }
 }
 

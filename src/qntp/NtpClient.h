@@ -9,7 +9,7 @@
  *
  * QNtp is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License 
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -19,7 +19,6 @@
 
 #include "config.h"
 #include <QObject>
-#include "QNtp.h"
 
 class QUdpSocket;
 class QHostAddress;
@@ -34,14 +33,14 @@ class QNTP_EXPORT NtpClient: public QObject {
 public:
   /**
    * Default constructor.
-   * 
+   *
    * @param parent                   Parent of this object.
    */
-  NtpClient(QObject *parent = NULL);
+  NtpClient(QObject *parent = nullptr);
 
   /**
    * Constructor.
-   * 
+   *
    * @param bindAddress              Address to bind udp socket to.
    * @param bindPort                 Port to bind udp socket to.
    * @param parent                   Parent of this object.
@@ -55,7 +54,7 @@ public:
 
   /**
    * Sends NTP request.
-   * 
+   *
    * @param address                  NTP server address.
    * @param port                     NTP server port.
    * @returns                        Whether the NTP request was successfully sent.
@@ -65,7 +64,7 @@ public:
 Q_SIGNALS:
   /**
    * This signal is emitted whenever NTP reply is received.
-   * 
+   *
    * @param address                  Address of the server that sent this reply.
    * @param port                     Port of the server that sent this reply.
    * @param reply                    NTP reply.

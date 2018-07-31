@@ -9,7 +9,7 @@
  *
  * QNtp is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License 
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -17,7 +17,6 @@
 #ifndef QNTP_NTP_TIMESTAMP_H
 #define QNTP_NTP_TIMESTAMP_H
 
-#include "config.h"
 #include <QtGlobal>
 #include <QtEndian>
 #include <QDateTime>
@@ -73,7 +72,7 @@ QDateTime NtpTimestamp::toDateTime(const NtpTimestamp &ntpTime) {
   quint32 seconds = qFromBigEndian(ntpTime.seconds);
   quint32 fraction = qFromBigEndian(ntpTime.fraction);
 
-  /* Convert NTP timestamp to number of milliseconds passed since Jan 1 1900. */ 
+  /* Convert NTP timestamp to number of milliseconds passed since Jan 1 1900. */
   qint64 ntpMSecs = seconds * 1000ll + fraction * 1000ll / 0x100000000ll;
 
   /* Construct Qt date time. */

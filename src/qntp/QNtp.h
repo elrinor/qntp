@@ -9,7 +9,7 @@
  *
  * QNtp is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License 
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -17,11 +17,9 @@
 #ifndef QNTP_QNTP_H
 #define QNTP_QNTP_H
 
-#include "config.h"
-
 /**
  * Leap indicators.
- */ 
+ */
 enum NtpLeapIndicator {
   NoWarning = 0,             /**< No warning. */
   LastMinute61Warning = 1,   /**< Last minute has 61 seconds. */

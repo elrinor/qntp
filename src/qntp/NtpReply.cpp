@@ -9,7 +9,7 @@
  *
  * QNtp is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License 
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -25,19 +25,21 @@ NtpReply::NtpReply(): d(new NtpReplyPrivate()) {
 }
 
 NtpReply::NtpReply(NtpReplyPrivate *dd): d(dd) {
-  Q_ASSERT(dd != NULL);
+  Q_ASSERT(dd != nullptr);
 }
 
-NtpReply::NtpReply(const NtpReply &other): d(other.d) {}
+NtpReply::NtpReply(const NtpReply &other): d(other.d){
+}
 
-NtpReply::~NtpReply() {}
+NtpReply::~NtpReply() {
+}
 
 NtpReply &NtpReply::operator=(const NtpReply &other) {
   d = other.d;
 
   return *this;
 }
-  
+
 NtpLeapIndicator NtpReply::leapIndicator() const {
   return static_cast<NtpLeapIndicator>(d->packet.basic.flags.leapIndicator);
 }

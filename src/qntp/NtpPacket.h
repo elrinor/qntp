@@ -9,7 +9,7 @@
  *
  * QNtp is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License 
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
  * for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -17,10 +17,8 @@
 #ifndef QNTP_PACKET_H
 #define QNTP_PACKET_H
 
-#include "config.h"
-#include <QtGlobal>
-#include "QNtp.h"
 #include "NtpTimestamp.h"
+#include <QtGlobal>
 
 /**
  * NtpPacket flags (first byte of the packet).
@@ -32,7 +30,7 @@ struct NtpPacketFlags {
   /** Version number of the protocol (3 or 4). */
   unsigned char versionNumber: 3;
 
-  /** Warns of an impending leap second to be inserted/deleted in the last minute 
+  /** Warns of an impending leap second to be inserted/deleted in the last minute
    * of the current day. */
   unsigned char leapIndicator: 2;
 };
