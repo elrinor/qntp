@@ -39,8 +39,3 @@ jobs:
         working-directory: build
         run: |
           make -j$(nproc)
-
-      - name: Test
-        working-directory: build
-        run: |
-          ./examples/qntp_example

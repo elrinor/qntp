@@ -42,8 +42,3 @@ jobs:
         working-directory: build
         run: |
           nmake
-
-      - name: Test
-        working-directory: build
-        run: |
-          ./examples/qntp_example
