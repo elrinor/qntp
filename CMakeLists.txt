@@ -8,9 +8,11 @@ project(
     LANGUAGES CXX
 )
 
-find_package(Qt6 COMPONENTS Core Network)
-if (NOT Qt6_FOUND)
-    find_package(Qt5 5.15 COMPONENTS Core Network REQUIRED)
+if(NOT Qt6_FOUND AND NOT Qt5_FOUND)
+    find_package(Qt6 COMPONENTS Core Network)
+    if (NOT Qt6_FOUND)
+        find_package(Qt5 5.15 COMPONENTS Core Network REQUIRED)
+    endif()
 endif()
 
 add_library(qntp STATIC
