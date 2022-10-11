@@ -26,7 +26,8 @@ jobs:
           cache: 'true'
 
       - name: Install dependencies
-        run:
+        run: |
+          echo nothing to do
 
       - name: Configure
         run: |
