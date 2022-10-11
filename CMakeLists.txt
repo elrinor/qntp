@@ -37,5 +37,5 @@ target_link_libraries(qntp PUBLIC Qt::Core Qt::Network)
 target_compile_features(qntp PUBLIC cxx_std_11)
 
 if(PROJECT_IS_TOP_LEVEL)
-    add_subdirectory(example)
+    add_subdirectory(examples)
 endif()
