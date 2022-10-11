@@ -1,7 +1,4 @@
-#ifndef QNTP_QNTP_H
-#define QNTP_QNTP_H
-
-#include "config.h"
+#pragma once
 
 /**
  * Leap indicators.
@@ -39,4 +36,3 @@ enum NtpStratum {
   /* 17-255 are reserved. */
 };
 
-#endif // QNTP_QNTP_H
