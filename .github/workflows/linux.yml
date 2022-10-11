@@ -43,4 +43,4 @@ jobs:
       - name: Test
         working-directory: build
         run: |
-          ./qntp_example
+          ./examples/qntp_example
