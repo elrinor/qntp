@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         loop.exit(0);
     });
 
-    QTimer::singleShot(10000, &loop, [&]{
+    QTimer::singleShot(60000, &loop, [&]{
         err << "Timed out\n";
         loop.exit(1);
     });
