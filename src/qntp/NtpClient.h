@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cassert>
+
+#include <memory>
+
 #include <QtCore/QObject>
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QUdpSocket>
@@ -19,25 +23,26 @@ public:
      *
      * @param parent                   Parent of this object.
      */
-    explicit NtpClient(QObject *parent = nullptr): QObject(parent) {
-        init(QHostAddress::Any, 0);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param bindAddress              Address to bind udp socket to.
-     * @param bindPort                 Port to bind udp socket to.
-     * @param parent                   Parent of this object.
-     */
-    NtpClient(const QHostAddress &bindAddress, quint16 bindPort, QObject *parent = nullptr): QObject(parent) {
-        init(bindAddress, bindPort);
-    }
+    explicit NtpClient(QObject *parent = nullptr): QObject(parent) {}
 
     /**
      * Virtual destructor.
      */
     virtual ~NtpClient() {}
+
+    /**
+     * @param bindAddress              Network address to bind upd socket to. It's passed to `QUdpSocket::bind`.
+     * @param bindPort                 Network port to bind udp socket to.
+     * @return                         Whether the socket was successfully bound.
+     */
+    bool bind(const QHostAddress &bindAddress = QHostAddress::Any, quint16 bindPort = 0) {
+        m_socket.reset(new QUdpSocket(this));
+        if (!m_socket->bind(bindAddress, bindPort))
+            return false;
+
+        connect(m_socket.get(), &QUdpSocket::readyRead, this, &NtpClient::readPendingDatagrams);
+        return true;
+    }
 
     /**
      * Sends NTP request.
@@ -47,8 +52,7 @@ public:
      * @returns                        Whether the NTP request was successfully sent.
      */
     bool sendRequest(const QHostAddress &address, quint16 port) {
-        if(m_Socket->state() != QAbstractSocket::BoundState)
-            return false;
+        assert(m_socket->state() == QAbstractSocket::BoundState); // Call bind() first.
 
         /* Initialize the NTP packet. */
         NtpPacket packet;
@@ -58,10 +62,18 @@ public:
         packet.transmitTimestamp = NtpTimestamp::fromDateTime(QDateTime::currentDateTimeUtc());
 
         /* Send it. */
-        if(m_Socket->writeDatagram(reinterpret_cast<const char *>(&packet), sizeof(packet), address, port) < 0)
+        if(m_socket->writeDatagram(reinterpret_cast<const char *>(&packet), sizeof(packet), address, port) < 0)
             return false;
 
         return true;
+    }
+
+    /**
+     * @return                          Underlying `QUdpSocket`. Note that this function might return `nullptr` if
+     *                                  `bind` wasn't called.
+     */
+    const QUdpSocket *socket() const {
+        return m_socket.get();
     }
 
 Q_SIGNALS:
@@ -76,29 +88,21 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void readPendingDatagrams() {
-        while (m_Socket->hasPendingDatagrams()) {
+        while (m_socket->hasPendingDatagrams()) {
             NtpFullPacket packet;
             memset(&packet, 0, sizeof(packet));
 
             QHostAddress address;
             quint16 port;
-            if (m_Socket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
+            if (m_socket->readDatagram(reinterpret_cast<char *>(&packet), sizeof(packet), &address, &port) < sizeof(NtpPacket))
                 continue;
 
-            /* Notify. */
             Q_EMIT replyReceived(address, port, NtpReply(packet, QDateTime::currentDateTime()));
         }
     }
 
 private:
-    void init(const QHostAddress &bindAddress, quint16 bindPort) {
-        m_Socket = new QUdpSocket(this);
-        m_Socket->bind(bindAddress, bindPort);
-
-        connect(m_Socket, &QUdpSocket::readyRead, this, &NtpClient::readPendingDatagrams);
-    }
-
-    QUdpSocket *m_Socket;
+    std::unique_ptr<QUdpSocket> m_socket;
 };
 
 

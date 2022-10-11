@@ -119,6 +119,13 @@ public:
     }
 
     /**
+     * @return                         Raw NTP reply, for the curious user.
+     */
+    const NtpFullPacket &rawData() const {
+        return m_packet;
+    }
+
+    /**
      * @returns                        Whether this ntp reply is null.
      */
     bool isNull() const {
