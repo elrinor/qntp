@@ -21,7 +21,7 @@ add_library(qntp STATIC
 )
 
 set(qntp_warning_guard "")
-if(PROJECT_IS_TOP_LEVEL)
+if(NOT PROJECT_IS_TOP_LEVEL)
     set(qntp_warning_guard SYSTEM)
 endif()
 
@@ -33,8 +33,6 @@ target_include_directories(
 )
 
 target_link_libraries(qntp PUBLIC Qt::Core Qt::Network)
-
-target_compile_features(qntp PUBLIC cxx_std_11)
 
 if(PROJECT_IS_TOP_LEVEL)
     add_subdirectory(examples)
