@@ -21,7 +21,7 @@ jobs:
       - name: Install Qt
         uses: jurplel/install-qt-action@v3
         with:
-          version: $${{ matrix.qt-version }}
+          version: ${{ matrix.qt-version }}
           archives: 'qtbase'
           cache: 'true'
 
